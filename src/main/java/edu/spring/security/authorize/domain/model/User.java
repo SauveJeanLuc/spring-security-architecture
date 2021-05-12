@@ -3,6 +3,7 @@ package edu.spring.security.authorize.domain.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Indexed;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,6 +18,8 @@ public class User implements UserDetails, Serializable {
 
     private String userName;
     private String password;
+
+    private String fullName;
 
 
 
