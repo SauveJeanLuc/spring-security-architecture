@@ -16,6 +16,7 @@ public class User implements UserDetails, Serializable {
     @Id
     private Long id;
 
+    @Column(unique = true)
     private String userName;
     private String password;
 
