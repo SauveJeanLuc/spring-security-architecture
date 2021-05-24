@@ -1,6 +1,7 @@
 package edu.spring.security.authorize.domain.model;
 
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Indexed;
@@ -11,6 +12,7 @@ import java.util.Collection;
 
 @Entity
 @Table
+@Data
 public class User implements UserDetails, Serializable {
 
     @Id
@@ -29,6 +31,7 @@ public class User implements UserDetails, Serializable {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
+
 
     @Override
     public String getPassword() {
