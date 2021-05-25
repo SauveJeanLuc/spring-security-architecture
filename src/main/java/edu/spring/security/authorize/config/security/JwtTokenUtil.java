@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.*;
 
 import java.util.Date;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
 
 import static java.lang.String.format;
 
@@ -30,7 +30,39 @@ public class JwtTokenUtil {
     }
 
     public String getUserId(String token){
+        Claims claims = Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject().split(",")[0];
+    }
 
+    public Date getExprirationDate(String token){
+        Claims claims = Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.getExpiration();
+    }
+
+    public boolean validate(String token){
+        try{
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+            return true;
+        } catch (SignatureException ex){
+            logger.error("Invalid JWT signature -{}", ex.getMessage());
+        } catch (MalformedJwtException ex) {
+            logger.error("Invalid JWT token -{}", ex.getMessage());
+        } catch (ExpiredJwtException ex) {
+            logger.error("Expired JWT token -{}", ex.getMessage());
+        } catch (UnsupportedJwtException ex) {
+            logger.error("Unsupported JWT token -{}", ex.getMessage());
+        } catch (IllegalArgumentException ex) {
+            logger.error("JWT claims string is empty - {}", ex.getMessage());
+        }
+
+        return false;
     }
 
 
